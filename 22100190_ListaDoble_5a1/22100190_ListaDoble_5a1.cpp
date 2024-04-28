@@ -167,20 +167,6 @@ Nodo* Lista::iterador_getItem() {
     return iterador;
 }
 
-void Lista::mostrar() {
-    Nodo* temp = inicio;
-    while (temp != NULL) {
-        cout << "Nombre: " << temp->datos->nombre << endl;
-        cout << "Apellido: " << temp->datos->apellido << endl;
-        cout << "Registro: " << temp->datos->registro << endl;
-        cout << "Edad: " << temp->datos->edad << endl;
-        cout << "Direccion del nodo: " << temp << endl;
-        cout << "Direccion del nodo siguiente: " << temp->siguiente << endl;
-        cout << "Direccion del nodo anterior: " << temp->anterior << endl << endl;
-        temp = temp->siguiente;
-    }
-}
-
 int main() {
     Lista lista;
     char opcion;
