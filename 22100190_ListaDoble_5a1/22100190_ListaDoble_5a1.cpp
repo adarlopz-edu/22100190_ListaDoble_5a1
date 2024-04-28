@@ -44,12 +44,16 @@ public:
     void mostrar();
 
     //funciones del iterador
-    void iterador_mostrar();
     void iterador_first();
     void iterador_last();
     void iterador_next();
     void iterador_prev();
     Nodo* iterador_getItem();
+
+    Nodo* getInicio() {
+        return inicio;
+    }
+
 };
 
 void Lista::agregar(Persona* datos) {
@@ -126,33 +130,6 @@ int Lista::contar() {
     return contador;
 }
 
-void Lista::mostrar() {
-    Nodo* temp = inicio;
-    while (temp != NULL) {
-        cout << "Nombre: " << temp->datos->nombre << endl;
-        cout << "Apellido: " << temp->datos->apellido << endl;
-        cout << "Registro: " << temp->datos->registro << endl;
-        cout << "Edad: " << temp->datos->edad << endl;
-        cout << "Direccion del nodo: " << temp << endl;
-        cout << "Direccion del nodo siguiente: " << temp->siguiente << endl;
-        cout << "Direccion del nodo anterior: " << temp->anterior << endl << endl;
-        temp = temp->siguiente;
-    }
-}
-
-void Lista::iterador_mostrar() {
-    if (iterador != NULL) {
-        cout << "Nodo actual" << endl;
-        cout << "Nombre: " << iterador->datos->nombre << endl;
-        cout << "Apellido: " << iterador->datos->apellido << endl;
-        cout << "Registro: " << iterador->datos->registro << endl;
-        cout << "Edad: " << iterador->datos->edad << endl << endl;
-    }
-    else {
-        cout << "El iterador no apunta a nada" << endl << endl;
-    }
-}
-
 void Lista::iterador_first() {
     //mueve el iterador al primer nodo de la lista
     iterador = inicio;
@@ -161,6 +138,9 @@ void Lista::iterador_first() {
 void Lista::iterador_next() {
     if (iterador != NULL && iterador->siguiente != NULL) {
         iterador = iterador->siguiente;
+    }
+    else {
+        cout << "El iterador ya está en el último nodo." << endl;
     }
 }
 
@@ -185,6 +165,20 @@ void Lista::iterador_prev() {
 Nodo* Lista::iterador_getItem() {
     //obtiene el nodo que apunta el iterador
     return iterador;
+}
+
+void Lista::mostrar() {
+    Nodo* temp = inicio;
+    while (temp != NULL) {
+        cout << "Nombre: " << temp->datos->nombre << endl;
+        cout << "Apellido: " << temp->datos->apellido << endl;
+        cout << "Registro: " << temp->datos->registro << endl;
+        cout << "Edad: " << temp->datos->edad << endl;
+        cout << "Direccion del nodo: " << temp << endl;
+        cout << "Direccion del nodo siguiente: " << temp->siguiente << endl;
+        cout << "Direccion del nodo anterior: " << temp->anterior << endl << endl;
+        temp = temp->siguiente;
+    }
 }
 
 int main() {
@@ -269,9 +263,18 @@ int main() {
             cout << "Cantidad de nodos en la lista: " << lista.contar() << endl << endl;
         }
         if (opcion == 'f') {
-            lista.mostrar();
+            Nodo* temp = lista.getInicio(); // Obtener el puntero al nodo inicial
+            while (temp != NULL) {
+                cout << "Nombre: " << temp->datos->nombre << endl;
+                cout << "Apellido: " << temp->datos->apellido << endl;
+                cout << "Registro: " << temp->datos->registro << endl;
+                cout << "Edad: " << temp->datos->edad << endl;
+                cout << "Direccion del nodo: " << temp << endl;
+                cout << "Direccion del nodo siguiente: " << temp->siguiente << endl;
+                cout << "Direccion del nodo anterior: " << temp->anterior << endl << endl;
+                temp = temp->siguiente;
+            }
         }
-
         if (opcion == 'g') {
             //submenu
             char opcionIterador;
@@ -287,48 +290,41 @@ int main() {
                 cout << endl << "Ingrese una opcion: ";
                 cin >> opcionIterador;
 
-                switch (opcionIterador) {
-                case 'a':
-                    lista.iterador_mostrar();
-                    break;
-
-                case 'b':
+                if(opcionIterador == 'a') {
+                    Nodo* iterador = lista.iterador_getItem();
+                    if (iterador != NULL) {
+                        cout << "Nodo actual" << endl;
+                        cout << "Nombre: " << iterador->datos->nombre << endl;
+                        cout << "Apellido: " << iterador->datos->apellido << endl;
+                        cout << "Registro: " << iterador->datos->registro << endl;
+                        cout << "Edad: " << iterador->datos->edad << endl << endl;
+                    }
+                    else {
+                        cout << "El iterador no apunta a nada" << endl << endl;
+                    }
+                }
+                if(opcionIterador == 'b') {
                     lista.iterador_first();
                     cout << "Iterador movido al primer nodo" << endl << endl;
-                    break;
-
-                case 'c':
+                }
+                if (opcionIterador == 'c') {
                     lista.iterador_last();
                     cout << "Iterador movido al ultimo nodo" << endl << endl;
-                    break;
-
-                case 'd':
+                }
+                if(opcionIterador == 'd') {
                     lista.iterador_next();
-                    break;
-
-                case 'e':
+                }
+                if (opcionIterador == 'e') {
                     lista.iterador_prev();
-                    break;
-
-                case 'f':
-                {
+                }
+                if (opcionIterador == 'f') {
                     Nodo* nodo_actual = lista.iterador_getItem();
                     if (nodo_actual != NULL) {
                         cout << "Direccion de memoria del nodo actual: " << nodo_actual << endl;
                     }
-                    else { 
+                    else {
                         cout << "El iterador no apunta a ningun nodo" << endl << endl;
                     }
-                }
-                break;
-
-                case 'g':
-                    //vuelve al menu principal
-                    break;
-
-                default:
-                    cout << "Opcion no valida" << endl;
-                    break;
                 }
             } while (opcionIterador != 'g');
         }
